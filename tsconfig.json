@@ -1,0 +1,21 @@
+//the typescript compiler will (attempt to) compile any files ending with .ts it finds in the src folder, and store the results in a folder named dist
+{
+    "compilerOptions": {
+        "module": "commonjs", //specify mdule code generation, since nodejs uses commonjs module system
+        "esModuleInterop": true,
+        "target":"ES6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir":"dist",
+        "baseUrl": ".",
+        "paths":{
+            "*":[
+                "node_modules/*"
+            ]
+        }
+    },
+    "include":[
+        "src/**/*"
+    ]
+}
