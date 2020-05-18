@@ -2,9 +2,18 @@
 // const express = require("express");
 import express from "express";
 import path from "path";
+import dotenv from "dotenv";
+
+// initialize configuration
+dotenv.config();
+
+// port is now avialable to the node.js runtime
+// as if it were an environment variable
+const port = process.env.SERVER_PORT;
+
 // creates an express app, the express() function is a top level function exported by the express module
 const app = express();
-const port = 8080; // default port to listen
+// const port = 8080; // default port to listen
 
 // configure express to use ejs
 app.set("views", path.join(__dirname,"views"));
