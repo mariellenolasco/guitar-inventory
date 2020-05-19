@@ -3,7 +3,8 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-
+import * as sessionAuth from "./middleware/sessionAuth";
+import * as routes from "./routes";
 // initialize configuration
 dotenv.config();
 
@@ -19,13 +20,19 @@ const app = express();
 app.set("views", path.join(__dirname,"views"));
 app.set("view engine", "ejs");
 
+// configure session auth
+sessionAuth.register(app);
+
 // define a route handler for the default home page
-app.get("/", (req:any, res:any) => {
+/* app.get("/", (req:any, res:any) => {
     // res.send("Hello world!");
     // render the index template
     res.render("index");
 
-});
+}); */
+
+// configure routes
+routes.register(app);
 
 // start the express server
 app.listen(port, () => {
