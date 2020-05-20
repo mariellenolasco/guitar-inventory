@@ -28,5 +28,5 @@ export const register = (app: express.Application) => {
     });
 
     api.register(app);
-    
+
 }

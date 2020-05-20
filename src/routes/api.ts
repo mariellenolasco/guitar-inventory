@@ -17,20 +17,21 @@ export const register = (app:express.Application) => {
     app.get(`/api/guitars/all`, oidc.ensureAuthenticated(), async (req:any, res) => {
         try {
             const userId = req.userContext.userinfo.sub;
+
             const guitars = await db.any(
-                `select 
+                `select
                     id
                     , brand
                     , model
                     , year
                     , color
                 from guitars
-                where user_id=$[userID]
+                where user_id=$[userId]
                 order by year, brand, model`, {userId}
             );
             return res.json(guitars)
         } catch (err){
-            //tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.error(err);
             res.json({error: err.message || err});
         }
@@ -50,7 +51,7 @@ export const register = (app:express.Application) => {
             );
             return res.json(total);
         } catch (err) {
-            //tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.error(err);
             res.json({error: err.message || err});
         }
@@ -71,7 +72,7 @@ export const register = (app:express.Application) => {
             {userId, search: `%${req.params.search}%`});
             return res.json(guitars);
         } catch(err){
-            //tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.error(err);
             res.json({error: err.message || err});
         }
@@ -83,11 +84,11 @@ export const register = (app:express.Application) => {
             insert into guitars (user_id, brand, model, year, color)
             values ($[userId], $[brand], $[model], $[year], $[color])
             returning id;`,
-            {userId, ...req.body}
+            { userId, ...req.body }
             );
             return res.json({id});
         } catch (err) {
-            //tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.error(err);
             res.json({error:err.message || err});
         }
@@ -109,7 +110,7 @@ export const register = (app:express.Application) => {
             {userId, ...req.body});
             return res.json({id});
         } catch (err) {
-            //tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.error(err);
             res.json({error:err.message || err});
         }
@@ -118,14 +119,14 @@ export const register = (app:express.Application) => {
         try{
             const userId = req.userContext.userinfo.sub;
             const id = await db.result(`
-            delete 
+            delete
             from guitars
             where user_id = $[userId]
             and id = $[id]
             `, {userId, id: req.params.id}, (r) => r.rowCount);
             return res.json({id});
         } catch (err) {
-            //tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.error(err);
             res.json({error:err.message || err});
         }

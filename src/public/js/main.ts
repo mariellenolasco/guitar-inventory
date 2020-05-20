@@ -48,7 +48,36 @@ new Vue({
                 });
         },
         confirmDeleteGuitar(id : string){
-            const guitar = this.guitars.find
-        }
+            const guitar = this.guitars.find((g) => g.id === id);
+            this.selectedGuitar = `${guitar.year} ${guitar.brand} ${guitar.model}`;
+            this.selectedGuitarId = guitar.id;
+            const dc = this.$refs.deleteConfirm;
+            const modal = M.Modal.init(dc);
+            modal.open();
+        },
+        deleteGuitar(id: string){
+            axios
+                .delete(`/api/guitars/remove/${id}`)
+                .then(this.loadGuitars)
+                .catch((err:any) => {
+                    //tslint:disable-next-line:no-console
+                    console.log(err);
+                });
+        },
+        loadGuitars(){
+            axios
+                .get(`/api/guitars/all`)
+                .then((res:any) => {
+                    this.isLoading = false;
+                    this.guitars = res.data;
+                })
+                .catch((err:any) => {
+                    // tslint:disable-next-line:no-console
+                    console.log( err );
+                });
+        }        
+    },
+    mounted(){
+        return this.loadGuitars();
     }
-})
+});
