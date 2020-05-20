@@ -16,6 +16,9 @@ const port = process.env.SERVER_PORT;
 const app = express();
 // const port = 8080; // default port to listen
 
+//configure express to parse incoming json data
+app.use(express.json());
+
 // configure express to use ejs
 app.set("views", path.join(__dirname,"views"));
 app.set("view engine", "ejs");
